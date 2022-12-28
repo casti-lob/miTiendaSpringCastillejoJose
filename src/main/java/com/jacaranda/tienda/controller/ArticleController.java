@@ -47,4 +47,17 @@ public class ArticleController {
 		repository.deleteArticle(delArticle);
 		return "redirect:/articulo/list";
 	}
+	
+	@GetMapping("articulo/update")
+	public String updateArticle(Model model, @RequestParam(name = "id") Long id) {
+		Article modArticle = repository.getArticle(id);
+		model.addAttribute("modArticle",modArticle);
+		return "updateArticle";
+	}
+	
+	@PostMapping("updateArticle/submit")
+	public String updateSubmit(@ModelAttribute(name = "modArticle")Article modArticle) {
+		repository.updateArticle(modArticle);
+		return "redirect:/articulo/list";
+	}
 }

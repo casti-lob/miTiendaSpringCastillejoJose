@@ -16,7 +16,7 @@ public class Category {
 	private long id;
 	private String name;
 	private String description;
-	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "category")/*No lo puedo poner porque no me permite modificar las categorias cascade = CascadeType.ALL, orphanRemoval = true  */
 	private List<Article> article;
 	
 	

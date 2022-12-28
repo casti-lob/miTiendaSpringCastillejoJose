@@ -29,7 +29,7 @@ public class CategoryService {
 		repository.delete(c);
 	}
 	
-	public Category updateUser(Category c) {
+	public Category updateCategory(Category c) {
 		if(getCategory(c.getId())!=null) {
 			return repository.save(c);
 		}else {

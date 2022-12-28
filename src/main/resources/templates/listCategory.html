@@ -13,27 +13,24 @@
 	<div class="container">
 		<div class="starter-template">
 			<h1>Listado de Usuarios</h1>
-			<div><a href="/articulo/add"><button type="button" class="btn btn-primary">Anadir</button></a></div>
+			<div><a href="/categoria/add"><button type="button" class="btn btn-primary">Anadir</button></a></div>
 			<table class="table">
 				<thead>
 					<tr>
-						<th>Titulo</th>
+						<th>Nombre</th>
 						<th>Descripcion</th>
-						<th>Precio</th>
-						<th>Stock</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr th:each="Article :${articleList}">
-						<td th:text="${Article.title}"></td>
-						<td th:text="${Article.description}"></td>
-						<td th:text="${Article.price}"></td>
-						<td th:text="${Article.stock}"></td>
+					<tr th:each="Category :${categoryList}">
+						<td th:text="${Category.name}"></td>
+						<td th:text="${Category.description}"></td>
+						
 						<td>
-							<a th:href="@{'/articulo/delete'(id=${Article.id})}" >
+							<a th:href="@{'/categoria/delete'(id=${Category.id})}" >
 								<button id="send" name="send" class="btn btn-primary">Borrar</button>
 							</a>
-							<a th:href="@{'/articulo/update'(id=${Article.id})}" >
+							<a th:href="@{'/categoria/update'(id=${Category.id})}" >
 								<button id="send" name="send" class="btn btn-primary">Modificar</button>
 							</a>
 							
