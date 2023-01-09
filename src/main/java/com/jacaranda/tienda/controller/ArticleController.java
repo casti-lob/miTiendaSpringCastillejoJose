@@ -1,5 +1,7 @@
 package com.jacaranda.tienda.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,12 +11,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.jacaranda.tienda.model.Article;
+import com.jacaranda.tienda.model.Category;
 import com.jacaranda.tienda.service.ArticleService;
+import com.jacaranda.tienda.service.CategoryService;
 
 @Controller
 public class ArticleController {
 	@Autowired
 	ArticleService repository;
+	
+	@Autowired
+	CategoryService repositoryCategory;
 	
 	@GetMapping("articulo/list")
 	public String listArticle(Model model) {
@@ -26,6 +33,10 @@ public class ArticleController {
 	public String addArticle(Model model) {
 		Article article = new Article();
 		model.addAttribute("newArticle", article);
+		
+		//obtenemos las categorias 
+		List<Category> categories = repositoryCategory.getCategories();
+		model.addAttribute("categories",categories);
 		return "addArticle";
 	}
 	

@@ -47,11 +47,13 @@
 			</div>
 			
 			<div class="form-group">
-				<label class="col-md-4 control-label" for="category">Id Categoria:
+				<label class="col-md-4 control-label" for="category">Categoria:
 				</label>
 				<div class="col-md-4">
-					<input id="category" name="category" type="number"
-						th:field="*{category}" class="form-control input-md" required>
+					<select class="registerInput" name="category">
+						<option th:each="category : ${categories}"
+								th:text="${category.name}" th:value="${category.id}"> </option>
+					</select>
 
 				</div>
 			</div>
