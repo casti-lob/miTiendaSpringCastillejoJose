@@ -1,8 +1,14 @@
 package com.jacaranda.tienda.model;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -10,36 +16,48 @@ import jakarta.persistence.Table;
 
 @Entity
 
-public class User {
+public class User implements UserDetails {
 	@Id
 	private String user;
 	private String password;
 	private String name;
 	private String email;
-	private boolean admin;
+	private boolean enabled;
+	private String role;
+	private String verification_code;  
 	
 	//Constructor completo
-	public User(String user, String password, String name, String email, boolean admin) throws UserException {
+	public User(String user, String password, String name, String email, boolean enabled, String role,
+			String verification_code) {
 		super();
-		this.setUser(user);
-		this.setPassword(password);
-		this.setName(name);
-		this.setEmail(email);
-		this.admin = false;
-	}
-	//Constructor sin PK
-	public User(String password, String name, String email, boolean admin) throws UserException {
-		super();
-		this.setPassword(password);
-		this.setName(name);
-		this.setEmail(email);
-		this.admin = false;
+		this.user = user;
+		this.password = password;
+		this.name = name;
+		this.email = email;
+		this.enabled = enabled;
+		this.role = role;
+		this.verification_code = verification_code;
 	}
 	
+	//Constructor sin PK
+	public User(String password, String name, String email, boolean enabled, String role, String verification_code) {
+		super();
+		this.password = password;
+		this.name = name;
+		this.email = email;
+		this.enabled = enabled;
+		this.role = role;
+		this.verification_code = verification_code;
+	}
+	
+	
+
 	//Constructor vacio
 	public User() {
 		super();
 	}
+	
+
 	public String getUser() {
 		return user;
 	}
@@ -51,9 +69,32 @@ public class User {
 		}
 		
 	}
-	public String getPassword() {
-		return password;
+	
+	public boolean isEnabled() {
+		return enabled;
 	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = "USER";
+	}
+
+	public String getVerification_code() {
+		return verification_code;
+	}
+
+	public void setVerification_code(String verification_code) {
+		this.verification_code = verification_code;
+	}
+
+	
 	public void setPassword(String password) throws UserException {
 		if(password==null||password.isEmpty()) {
 			throw new UserException("El campo password es obligatorio");
@@ -86,10 +127,10 @@ public class User {
 		
 	}
 	public boolean isAdmin() {
-		return admin;
+		return enabled;
 	}
 	public void setAdmin(boolean admin) {
-		this.admin = admin;
+		this.enabled = admin;
 	}
 	
 	@Override
@@ -106,6 +147,41 @@ public class User {
 			return false;
 		User other = (User) obj;
 		return Objects.equals(user, other.user);
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+		authorities.add(new SimpleGrantedAuthority(this.role));
+		return authorities;
+	}
+	
+	@Override
+	public String getPassword() {
+		return this.password;
+	}
+	@Override
+	public String getUsername() {
+		
+		return this.user;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		
+		return enabled;
 	}
 	
 	
