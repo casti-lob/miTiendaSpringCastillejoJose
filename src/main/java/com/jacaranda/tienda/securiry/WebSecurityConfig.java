@@ -52,15 +52,14 @@ public class WebSecurityConfig {
 	throws Exception {
 	http.authorizeHttpRequests((requests) -> {
 	requests.requestMatchers("/css").permitAll()
-	.requestMatchers("/listStudent").hasAnyAuthority("USER",
-	"ADMIN")
+	
 	.requestMatchers("/").permitAll()
 	.requestMatchers("/sing_up").permitAll()
-	.requestMatchers("/elements/**").hasAnyAuthority("USER",
-	"ADMIN")
-	.requestMatchers("/addStudent").hasAuthority("ADMIN")
-	.requestMatchers("/editStudent/**").hasAuthority("ADMIN")
-	.requestMatchers("/delStudent/**").hasAuthority("ADMIN")
+	.requestMatchers("/elements/**").permitAll()
+	
+	.requestMatchers("/addStudent").permitAll()
+	.requestMatchers("/editStudent/**").permitAll()
+	.requestMatchers("/delStudent/**").permitAll()
 	.requestMatchers("/register").permitAll()
 	.requestMatchers("/process_register").permitAll()
 	.anyRequest().authenticated();
